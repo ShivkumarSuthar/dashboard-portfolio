@@ -35,6 +35,9 @@ app.use('/api/skills', skillsRoutes);
 app.use('/api/dashboard', dashboardRoute);
 app.use('/api/profile', profileRoute);
 
+// ✅ Export for local development
+const PORT = process.env.PORT || 3001;
+
 // Default route
 app.get('/', (req, res) => {
   res.send(`Portfolio API running on ${PORT}`);
@@ -42,14 +45,10 @@ app.get('/', (req, res) => {
 
 
 // ✅ Export for Vercel
-module.exports = app;
-module.exports.handler = serverless(app);
+// module.exports = app;
+// module.exports.handler = serverless(app);
 
 
-
-// ✅ Export for local development
-// const PORT = process.env.PORT || 3001;
-
-// app.listen(PORT, () => {
-//   console.log(`Server running on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

@@ -1,38 +1,76 @@
-.App {
-  text-align: center;
+:root {
+  /* Primary Colors */
+  --primary-blue: #4B49E0;
+  --primary-purple: #865DFF;
+  --primary-gradient: linear-gradient(90deg, #4B49E0 0%, #865DFF 100%);
+
+  /* Accent Colors */
+  --accent-green: #34C77B;
+  --accent-red: #F65757;
+  --accent-yellow: #FCD34D;
+  --accent-cyan: #3CD3E9;
+
+  /* Text Colors */
+  --text-primary: #1C1F3E;
+  --text-secondary: #6B7280;
+  --text-light: #FFFFFF;
+
+  /* Backgrounds */
+  --background-main: #F9FAFB;
+  --background-card: #FFFFFF;
+  --background-sidebar: #F3F4F6;
+  --background-hover: #EEF1F8;
+
+  /* Borders & Shadows */
+  --border-color: #E5E7EB;
+  --divider-color: #D1D5DB;
+  --shadow-light: 0px 4px 20px rgba(0, 0, 0, 0.05);
+
+  /* Font Families */
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-fira-code: 'Fira Code', monospace;
+  --font-poppins: 'Poppins', sans-serif;
+  --font-roboto: 'Roboto', sans-serif;
+  --font-inter: 'Inter', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* ----------------------------------------------------------------------------------------------------- */
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Montserrat:wght@100..900&family=Poppins:wght@100..900&display=swap');
+
+/* ----------------------------------------------------- */
+
+/* General Styles */
+
+body {
+  font-family: var(--font-montserrat);
+  background-color: var(--background-main);
+  color: var(--text-primary);
+  margin: 0;
+  padding: 0;
+} 
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
+/* --------------------------------------------- */
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.sidebar{
+  padding: 20px;
+}
+/* Header Styles */
+.logo-container{
   display: flex;
-  flex-direction: column;
+  justify-content: start;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.logo-img{
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  padding: 5px;
+margin-bottom: 30px;
 }

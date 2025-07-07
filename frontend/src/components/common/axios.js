@@ -1,8 +1,9 @@
 // src/api/apiCall.js
 import axios from 'axios';
+import { BASE_URL } from './constant';
 
 const axiosInstance = axios.create({
-  baseURL: 'http://localhost:3000/api/',
+  baseURL: BASE_URL,
   timeout: 15000,
   headers: {
     'Content-Type': 'application/json',

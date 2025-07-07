@@ -8,6 +8,7 @@ import ProjectsMain from './components/projects/ProjectsMain';
 import WorkLayout from './components/workExperience/WorkLayout';
 import SkillsLayout from './components/skills/SkillsLayout';
 import ProfileLayout from './components/profilePage/ProfileLayout';
+import DashboardLayout from './components/Home/DashboardLayout';
 
 const router = createBrowserRouter([
   {
@@ -16,7 +17,7 @@ const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <Home />,
+        element: <DashboardLayout />,
       },
       {
         path: 'projects/',
