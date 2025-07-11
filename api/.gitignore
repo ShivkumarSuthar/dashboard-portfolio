@@ -1,5 +1,4 @@
 # Dependencies
-node_modules*
 .pnp.*
 /.pnp
 .yarn/*
@@ -38,6 +37,7 @@ Thumbs.db
 *.tsbuildinfo
 next-env.d.ts
 
+node_modules*
 # SSL keys
 *.pem
 
