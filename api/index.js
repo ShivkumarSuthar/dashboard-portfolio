@@ -2,9 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const serverless = require('serverless-http');
 
-// Import routes
 const projectRoutes = require('./routes/project');
 const workRoutes = require('./routes/workHistory');
 const educationRoutes = require('./routes/education');
@@ -20,7 +18,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Connect to MongoDB
-mongoose.connect(process.env.MONGO_URI, {
+mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 })
@@ -35,20 +33,13 @@ app.use('/api/skills', skillsRoutes);
 app.use('/api/dashboard', dashboardRoute);
 app.use('/api/profile', profileRoute);
 
-// ✅ Export for local development
-const PORT = process.env.PORT || 3001;
-
 // Default route
 app.get('/', (req, res) => {
-  res.send(`Portfolio API running on ${PORT}`);
+  res.send('Portfolio API running!');
 });
 
-
-// ✅ Export for Vercel
-// module.exports = app;
-// module.exports.handler = serverless(app);
-
-
+// Start server
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
