@@ -194,7 +194,6 @@ function Home() {
               disableRowSelectionOnClick
               rows={data.recentProjects.map((item, index) => ({
                 ...item,
-                id: item._id,
                 index: index + 1,
               }))}
               columns={[
@@ -261,16 +260,17 @@ function Home() {
                   field: "actions",
                   headerName: "Actions",
                   width: 120,
-                  renderCell: (params) => (
+                  renderCell: (params) => { 
+                    return (
                     <Button
                       variant="outlined"
                       size="small"
-                      to={params.row.liveUrl}
+                      to={`projects/details/${params.row.id}`}
                       component={Link}
                     >
-                      View
+                      Open
                     </Button>
-                  ),
+                  )},
                 },
               ]}
             />
@@ -310,7 +310,6 @@ function Home() {
               disableRowSelectionOnClick
               rows={data.recentWorkHistory.map((item, index) => ({
                 ...item,
-                id: item._id,
                 index: index + 1,
                 duration: `${new Date(item.startDate).toLocaleDateString("en-GB", {
                   month: "short",
@@ -354,10 +353,10 @@ function Home() {
                     <Button
                       variant="outlined"
                       size="small"
-                      href={params.row.liveUrl}
+                      to={`projects/details/${params.row.id}`}
                       component={Link}
                     >
-                      View
+                      Open
                     </Button>
                   ),
                 },

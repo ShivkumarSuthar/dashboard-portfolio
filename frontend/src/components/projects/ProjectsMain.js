@@ -9,7 +9,7 @@ function ProjectsMain() {
   return (
     <>
     {type == "list" && <ProjectLayout/>}
-    {type == "add" || type == 'edit' && <ProjectAddPage/>}
+    {type == "add" || type == 'details' && <ProjectAddPage/>}
     </>
   );
 }

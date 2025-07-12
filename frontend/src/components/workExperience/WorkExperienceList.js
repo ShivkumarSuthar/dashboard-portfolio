@@ -226,8 +226,8 @@ function WorkExperienceList() {
                   </Box>
                   
                   <ButtonGroup variant="contained" size="small">
-                    <Button component={Link} to={`/work-experience/edit/${work?._id}`}>
-                      Edit
+                    <Button component={Link} to={`/work-experience/details/${work?._id}`}>
+                      details
                     </Button> 
                     <Button color="error">
                       Delete

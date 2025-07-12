@@ -65,7 +65,7 @@ function ProjectAddPage() {
     const {type, id} = useParams()
 
  useEffect(() => {
-        if (type !== 'edit') {
+        if (type !== 'details') {
             setDataLoaded(true);
             return;
         }
@@ -101,12 +101,12 @@ function ProjectAddPage() {
         }
 
         return {
-            title: type === 'edit' ? projectData?.title || '' : '',
-            description: type === 'edit' ? projectData?.description || '' : '',
-            liveUrl: type === 'edit' ? projectData?.liveUrl || '' : '',
-            githubUrl: type === 'edit' ? projectData?.githubUrl || '' : '',
-            displayOrder: type === 'edit' ? projectData?.order || 1 : 1,
-            image: type === 'edit' ? projectData?.image || '' : ''
+            title: type === 'details' ? projectData?.title || '' : '',
+            description: type === 'details' ? projectData?.description || '' : '',
+            liveUrl: type === 'details' ? projectData?.liveUrl || '' : '',
+            githubUrl: type === 'details' ? projectData?.githubUrl || '' : '',
+            displayOrder: type === 'details' ? projectData?.order || 1 : 1,
+            image: type === 'details' ? projectData?.image || '' : ''
         };
     }, [type, projectData, dataLoaded]);
 
@@ -569,10 +569,10 @@ function ProjectAddPage() {
                             >
                                 {
                                     isSubmitting
-                                        ? type !== 'edit'
+                                        ? type !== 'details'
                                             ? 'Creating...'
                                             : '..saving'
-                                        : type !== 'edit'
+                                        : type !== 'details'
                                             ? 'Create Project'
                                             : 'Save Changes'
                                 }

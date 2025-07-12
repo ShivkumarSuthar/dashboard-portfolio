@@ -117,9 +117,9 @@ function WorkExperiencePage() {
     <Box sx={{ minHeight: "100vh", overflowY: "auto", p: "50px" }}>
       <Stack direction="row" justifyContent="space-between">
         <Stack>
-          <Typography variant="h5">{type == 'edit' ? 'Edit' : 'Add'} Work Experience</Typography>
+          <Typography variant="h5">{type == 'details' ? 'details' : 'Add'} Work Experience</Typography>
           <Typography variant="body2">
-            {type == 'edit' ? 'Edit' : 'Add'} your professional experience and achievements
+            {type == 'details' ? 'details' : 'Add'} your professional experience and achievements
           </Typography>
         </Stack>
         <Button variant="outlined" onClick={() => navigate(-1)}>

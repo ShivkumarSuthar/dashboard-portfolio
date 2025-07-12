@@ -9,7 +9,7 @@ function WorkLayout() {
   return (
     <>
     {type == 'list' && <WorkExperienceList/>}
-    {type == 'Add' || type == 'edit' && <WorkExperiencePage/>}
+    {type == 'Add' || type == 'details' && <WorkExperiencePage/>}
     </>
   )
 }
