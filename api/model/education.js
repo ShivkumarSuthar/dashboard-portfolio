@@ -4,7 +4,7 @@ const autoIncrementId = require('../utils/autoIncrementId');
 const educationSchema = new mongoose.Schema(
   {
     id: {
-      type: Number,
+      type: String,
       unique: true,
     },
     institution: {

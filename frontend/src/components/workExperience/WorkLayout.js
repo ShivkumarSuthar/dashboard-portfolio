@@ -4,12 +4,12 @@ import WorkExperienceList from './WorkExperienceList'
 import WorkExperiencePage from './WorkExperiencePage'
 
 function WorkLayout() {
-  const {type, id}=useParams()
+  const {type}=useParams()
   console.log(type, 'type')
   return (
     <>
-    {type == 'list' && <WorkExperienceList/>}
-    {type == 'Add' || type == 'details' && <WorkExperiencePage/>}
+    {type === 'list' && <WorkExperienceList/>}
+    {(type === 'add' || type === 'details') && <WorkExperiencePage/>}
     </>
   )
 }

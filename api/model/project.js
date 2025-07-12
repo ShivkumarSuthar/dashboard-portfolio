@@ -4,7 +4,7 @@ const autoIncrementId = require('../utils/autoIncrementId');
 
 const projectSchema = new mongoose.Schema({
   id: {
-    type: Number,
+    type: String,
     unique: true,
   },
   title: {
@@ -30,7 +30,7 @@ const projectSchema = new mongoose.Schema({
     type: String,
   },
   order: {
-    type: Number,
+    type: String,
   },
   featured: {
     type: Boolean,

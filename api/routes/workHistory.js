@@ -1,5 +1,6 @@
 const express = require('express');
 const workModel = require('../model/workHistory');
+const { default: mongoose } = require('mongoose');
 const router = express();
 
 router.use(express.json());
@@ -23,6 +24,14 @@ router.get('/list', async (req, res) => {
 
 // 2️⃣ Get a single work entry by ID
 router.get('/:id', async (req, res) => {
+  const { id } = req.params;
+  if (!id) {
+    return res.status(400).json({ message: 'Work ID is required' });
+  }else{
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: 'Invalid Work ID' });
+    }
+  }
   try {
     const workEntry = await workModel.findById(req.params.id);
     if (!workEntry) {

@@ -8,7 +8,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useFormik } from "formik";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -30,6 +30,11 @@ import * as Yup from "yup";
 function WorkExperiencePage() {
   const navigate = useNavigate();
   const { type,id } = useParams();
+  const [workData, setWorkData] = useState(null);
+
+  useEffect(()=>{
+
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -97,7 +102,7 @@ function WorkExperiencePage() {
   };
 
   const handleCancel = () => {
-    if (type === "Add") {
+    if (type === "add") {
       navigate(-1);
     } else {
       formik.resetForm();
@@ -117,9 +122,9 @@ function WorkExperiencePage() {
     <Box sx={{ minHeight: "100vh", overflowY: "auto", p: "50px" }}>
       <Stack direction="row" justifyContent="space-between">
         <Stack>
-          <Typography variant="h5">{type == 'details' ? 'details' : 'Add'} Work Experience</Typography>
+          <Typography variant="h5">Work Experience Page</Typography>
           <Typography variant="body2">
-            {type == 'details' ? 'details' : 'Add'} your professional experience and achievements
+            {type === 'details' ? 'Details of' : 'Add'} your professional experience and achievements
           </Typography>
         </Stack>
         <Button variant="outlined" onClick={() => navigate(-1)}>
@@ -297,9 +302,21 @@ function WorkExperiencePage() {
             <Button variant="outlined" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button type="submit" variant="contained" color="primary">
-              Save
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              disabled={!formik.dirty || formik.isSubmitting}
+            >
+              {formik.isSubmitting
+                ? type === 'details'
+                  ? 'Updating...'
+                  : 'Adding...'
+                : type === 'details'
+                  ? 'Update Experience'
+                  : 'Add Experience'}
             </Button>
+
           </Stack>
         </form>
       </Box>

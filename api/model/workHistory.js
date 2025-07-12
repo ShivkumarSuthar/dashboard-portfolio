@@ -4,7 +4,7 @@ const autoIncrementId = require('../utils/autoIncrementId');
 
 const workHistorySchema = new mongoose.Schema({
   id: {
-    type: Number,
+    type: String,
     unique: true,
   },
   company: String,

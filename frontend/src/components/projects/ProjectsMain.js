@@ -8,8 +8,8 @@ function ProjectsMain() {
   const {type} = useParams()
   return (
     <>
-    {type == "list" && <ProjectLayout/>}
-    {type == "add" || type == 'details' && <ProjectAddPage/>}
+    {type === "list" && <ProjectLayout/>}
+    {(type === "add" || type === 'details') && <ProjectAddPage/>}
     </>
   );
 }

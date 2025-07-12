@@ -8,7 +8,7 @@ const linkItemSchema = new mongoose.Schema({
 
 const profileOverviewSchema = new mongoose.Schema({
   id: {
-    type: Number,
+    type: String,
     unique: true,
   },
   fullName: String,

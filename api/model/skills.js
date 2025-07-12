@@ -4,7 +4,7 @@ const autoIncrementId = require('../utils/autoIncrementId');
 const skillSchema = new mongoose.Schema(
   {
     id: {
-      type: Number,
+      type: String,
       unique: true,
     },
     category: {
@@ -28,7 +28,7 @@ const skillSchema = new mongoose.Schema(
           trim: true,
         },
         experienceYears: {
-          type: Number,
+          type: String,
           default: 0,
         },
         description: {
