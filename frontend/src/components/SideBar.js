@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import { 
   Box, 
   Drawer, 
-  IconButton, 
+  Button, 
   List, 
   ListItem, 
-  Tooltip,
-  Collapse,
   Divider,
   useTheme,
   alpha
@@ -16,16 +14,10 @@ import { NAV_OPTIONS } from "./common/data";
 import { LOGO } from "./common/constant";
 
 const drawerWidth = 80;
-const expandedDrawerWidth = 240;
 
 function SideBar() {
   const location = useLocation();
   const theme = useTheme();
-  const [isExpanded, setIsExpanded] = useState(false);
-
-  const handleToggleExpand = () => {
-    setIsExpanded(!isExpanded);
-  };
 
   return (
     <Drawer
@@ -36,14 +28,13 @@ function SideBar() {
         '& .MuiDrawer-paper': {
           width: drawerWidth,
           boxSizing: 'border-box',
-          borderRight: 'none',
-          backgroundColor: 'background.paper',
-          boxShadow: '2px 0 8px rgba(0,0,0,0.1)',
+          borderRight: '1px solid #e0e0e0',
+          backgroundColor: '#ffffff',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
-          py: 2,
-          px: 1,
+          py: 1,
+          px: 0,
         },
       }}
     >
@@ -54,25 +45,20 @@ function SideBar() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
+          py: 1,
         }}
       >
         <Box
           component="img"
           src={LOGO}
-          alt="Foliary Logo"
+          alt="Logo"
           sx={{
-            width: 48,
-            height: 48,
-            borderRadius: 2,
-            transition: 'transform 0.3s ease',
-            '&:hover': {
-              transform: 'scale(1.05)',
-            },
+            width: 28,
+            height: 28,
+            borderRadius: 1,
           }}
         />
       </Box>
-
-      <Divider sx={{ width: '80%', mb: 2 }} />
 
       {/* Navigation List */}
       <List 
@@ -80,9 +66,9 @@ function SideBar() {
         sx={{ 
           display: 'flex', 
           flexDirection: 'column', 
-          gap: 1,
+          gap: 0,
           width: '100%',
-          alignItems: 'center',
+          flex: 1,
         }}
       >
         {NAV_OPTIONS.map((item, index) => {
@@ -92,45 +78,56 @@ function SideBar() {
           const Icon = item.icon;
 
           return (
-            <ListItem key={index} disablePadding sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-              <Tooltip 
-                title={item.label} 
-                placement="right" 
-                arrow
-              >
-                <IconButton
-                  component={Link}
-                  to={item.url}
-                  sx={{
-                    width: 56,
-                    height: 56,
-                    borderRadius: 2,
+            <ListItem key={index} disablePadding sx={{ width: '100%' }}>
+              <Button
+                component={Link}
+                to={item.url}
+                sx={{
+                  width: '100%',
+                  height: 64,
+                  borderRadius: 0,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 0.5,
+                  backgroundColor: isActive 
+                    ? 'rgba(255, 87, 34, 0.08)'
+                    : 'transparent',
+                  color: isActive 
+                    ? '#ff5722' 
+                    : '#757575',
+                  borderLeft: isActive 
+                    ? '3px solid #ff5722'
+                    : '3px solid transparent',
+                  textTransform: 'none',
+                  fontSize: '0.6rem',
+                  fontWeight: 500,
+                  minHeight: 64,
+                  transition: 'all 0.2s ease',
+                  '&:hover': {
                     backgroundColor: isActive 
-                      ? alpha(theme.palette.primary.main, 0.15)
-                      : 'transparent',
-                    color: isActive 
-                      ? theme.palette.primary.main 
-                      : theme.palette.text.secondary,
-                    border: isActive 
-                      ? `2px solid ${alpha(theme.palette.primary.main, 0.3)}`
-                      : '2px solid transparent',
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      backgroundColor: isActive 
-                        ? alpha(theme.palette.primary.main, 0.2)
-                        : alpha(theme.palette.primary.main, 0.08),
-                      transform: 'translateY(-2px)',
-                      color: theme.palette.primary.main,
-                      boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-                    },
-                    '&:active': {
-                      transform: 'translateY(0px) scale(0.95)',
-                    },
+                      ? 'rgba(255, 87, 34, 0.12)'
+                      : 'rgba(0, 0, 0, 0.04)',
+                    color: isActive ? '#ff5722' : '#424242',
+                  },
+                }}
+              >
+                <Icon fontSize="small" />
+                <Box
+                  sx={{
+                    fontSize: '0.6rem',
+                    lineHeight: 1,
+                    textAlign: 'center',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '100%',
                   }}
                 >
-                  <Icon fontSize="medium" />
-                </IconButton>
-              </Tooltip>
+                  {item.label}
+                </Box>
+              </Button>
             </ListItem>
           );
         })}
@@ -143,14 +140,14 @@ function SideBar() {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          pt: 2,
+          py: 1,
         }}
       >
         <Box
           sx={{
-            fontSize: '0.7rem',
-            color: theme.palette.text.disabled,
-            fontWeight: 500,
+            fontSize: '0.6rem',
+            color: '#bdbdbd',
+            fontWeight: 400,
           }}
         >
           v1.0.0
