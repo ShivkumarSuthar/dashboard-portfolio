@@ -104,7 +104,7 @@ function WorkExperienceList() {
             <Button 
               variant="outlined" 
               component={Link}
-              to="/work-experience/Add"
+              to="/work-experience/add"
               startIcon={<AddCircleIcon />}
               size="large"
               sx={{ minWidth: 160 }}
@@ -226,8 +226,8 @@ function WorkExperienceList() {
                   </Box>
                   
                   <ButtonGroup variant="contained" size="small">
-                    <Button component={Link} to={`/work-experience/details/${work?._id}`}>
-                      details
+                    <Button component={Link} to={`/work-experience/details/${work?.id}`}>
+                      open
                     </Button> 
                     <Button color="error">
                       Delete
