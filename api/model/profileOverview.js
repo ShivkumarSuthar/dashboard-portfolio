@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const autoIncrementId = require('../utils/autoIncrementId');
 
 const linkItemSchema = new mongoose.Schema({
   name: String,
@@ -6,6 +7,10 @@ const linkItemSchema = new mongoose.Schema({
 });
 
 const profileOverviewSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    unique: true,
+  },
   fullName: String,
   title: String,
   bio: String,
@@ -23,5 +28,7 @@ const profileOverviewSchema = new mongoose.Schema({
     default: {},
   },
 }, { timestamps: true });
+
+autoIncrementId(profileOverviewSchema, 'ProfileOverview');
 
 module.exports = mongoose.model('ProfileOverview', profileOverviewSchema);

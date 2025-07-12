@@ -1,15 +1,20 @@
 const mongoose = require('mongoose');
+const autoIncrementId = require('../utils/autoIncrementId');
 
 const skillSchema = new mongoose.Schema(
   {
+    id: {
+      type: Number,
+      unique: true,
+    },
     category: {
       type: String,
       required: true,
       trim: true,
     },
-    cat_description:{
-      type:String,
-       trim: true,
+    cat_description: {
+      type: String,
+      trim: true,
     },
     skills: [
       {
@@ -19,7 +24,7 @@ const skillSchema = new mongoose.Schema(
           trim: true,
         },
         level: {
-          type: String, // e.g., Beginner, Intermediate, Expert
+          type: String,
           trim: true,
         },
         experienceYears: {
@@ -35,5 +40,9 @@ const skillSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// 🪄 Apply the helper here
+autoIncrementId(skillSchema, 'SkillCategory');
+
 
 module.exports = mongoose.model('SkillCategory', skillSchema);

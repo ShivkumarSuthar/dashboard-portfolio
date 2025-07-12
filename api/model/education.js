@@ -1,7 +1,12 @@
 const mongoose = require('mongoose');
+const autoIncrementId = require('../utils/autoIncrementId');
 
 const educationSchema = new mongoose.Schema(
   {
+    id: {
+      type: Number,
+      unique: true,
+    },
     institution: {
       type: String,
       required: true,
@@ -40,5 +45,7 @@ const educationSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+autoIncrementId(educationSchema, 'Education');
 
 module.exports = mongoose.model('Education', educationSchema);

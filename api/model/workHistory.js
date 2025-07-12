@@ -1,45 +1,21 @@
 const mongoose = require('mongoose');
+const autoIncrementId = require('../utils/autoIncrementId');
 
-const workHistorySchema = new mongoose.Schema(
-  {
-    company: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    position: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-    startDate: {
-      type: Date,
-      required: true,
-    },
-    endDate: {
-      type: Date,
-      default: null, // null means currently working
-    },
-    isCurrent: {
-      type: Boolean,
-      default: false,
-    },
-    location: {
-      type: String,
-      trim: true,
-    },
-    responsibilities: {
-      type: [String], // List of key responsibilities or achievements
-      default: [],
-    },
-    techStack: {
-      type: [String], // Technologies used in this role
-      default: [],
-    },
+
+const workHistorySchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    unique: true,
   },
-  {
-    timestamps: true,
-  }
-);
+  company: String,
+  position: String,
+  startDate: Date,
+  endDate: Date,
+  isCurrent: Boolean,
+  description: String
+}, { timestamps: true });
+
+// Auto-increment `id` before save
+autoIncrementId(workHistorySchema, 'WorkHistory');
 
 module.exports = mongoose.model('WorkHistory', workHistorySchema);
