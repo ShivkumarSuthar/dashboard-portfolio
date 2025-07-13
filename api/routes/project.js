@@ -37,10 +37,11 @@ router.get('/list', async (req, res) => {
   const projectList = await projectModel.find()
 })
 
-router.put('/update/:id', async (req, res) => {
+router.put('/updateProjectData', async (req, res) => {
+  const { id } = req.body;
   try {
-    const updatedProject = await projectModel.findByIdAndUpdate(
-      req.params.id,
+    const updatedProject = await projectModel.findOneAndUpdate(
+      {id},
       req.body,
       { new: true }
     );
@@ -60,10 +61,11 @@ router.put('/update/:id', async (req, res) => {
 })
 
 
-router.delete('/remove/:id', async (req, res) => {
+router.post('/deleteProjectData', async (req, res) => {
+  const { id } = req.body;
 
   try {
-    const deletedProject = await projectModel.findByIdAndDelete(req.params.id)
+    const deletedProject = await projectModel.findOneAndDelete({id})
     if (!deletedProject) {
       res.status(400).send('project not found')
     }
@@ -79,7 +81,7 @@ router.delete('/remove/:id', async (req, res) => {
   }
 })
 
-router.get('/', async (req, res) => {
+router.get('/getProjectdData', async (req, res) => {
   try {
     const { id } = req.query;
 
@@ -87,7 +89,7 @@ router.get('/', async (req, res) => {
       return res.status(400).json({ message: 'Missing project ID in query' });
     }
 
-    const projectData = await projectModel.findOne({ _id: id });
+    const projectData = await projectModel.findOne({id });
 
     if (projectData) {
       res.status(200).json({ data: projectData });

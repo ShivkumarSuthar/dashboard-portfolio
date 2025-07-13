@@ -15,7 +15,7 @@ import {
     ButtonGroup,
 } from '@mui/material';
 import { Link } from 'react-router-dom';
-import { getProjectData } from '../common/services';
+import { deleteProjectData, getProjectListData } from '../common/services';
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LaunchIcon from '@mui/icons-material/Launch';
 import FolderOpenIcon from '@mui/icons-material/FolderOpen';
@@ -32,10 +32,8 @@ function ProjectLayout() {
     
 
     useEffect(() => {
-        getProjectData()
+        getProjectListData()
             .then(res => {
-                console.log("FULL API RESPONSE:", res);
-                console.log("DATA:", res.data);
                 setProjectData(res.data || []);
             })
             .catch(err => {
@@ -45,13 +43,16 @@ function ProjectLayout() {
 
     const handleDelete = (id) => {
         console.log(`Delete project with ID: ${id}`);
+        deleteProjectData({id})
+            .then(res => {
+                console.log('Project deleted successfully:', res.data);
+            })      
+            .catch(err => {
+                console.error('Error deleting project:', err);
+            });
         // Implement delete functionality here
     };
 
-    const handleAddProject = () => {
-        console.log('Add new project');
-        // Navigate to add project page or open modal
-    };
 
     // Define columns for the table
     const columns = [

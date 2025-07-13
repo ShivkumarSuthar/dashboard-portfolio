@@ -7,7 +7,7 @@ export const getDashboardData = (params = {}) => {
     params,
   });
 };
-export const getProjectData = (params = {}) => {
+export const getProjectListData = (params = {}) => {
   return serverRequest({
     method: 'get',
     url: '/project/list',
@@ -22,18 +22,18 @@ export const createProject = (data) => {
   });
 };
 
-export const updateProjectData=((params={})=>{
+export const updateProjectData=((data = {})=>{
   return serverRequest({
     method:'put',
-    url:'/project/update/',
-    params
+    url:'/project/updateProjectData',
+    data
   })
 })
 
-export const getOneProjectData = (params = {}) => {
+export const getProjectData = (params = {}) => {
   return serverRequest({
     method: 'get',
-    url: '/project',
+    url: '/project/getProjectdData',
     params, 
   });
 };
@@ -43,6 +43,14 @@ export const getWorkDataList= (params={})=>{
     method:'get',
     url:'/work/list',
     params,
+  })
+}
+
+export const deleteProjectData= (data={})=>{
+  return serverRequest({
+    method:'post',
+    url:'/project/deleteProjectData',
+    data,
   })
 }
 

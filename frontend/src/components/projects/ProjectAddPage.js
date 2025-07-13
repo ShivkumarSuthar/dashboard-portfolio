@@ -32,7 +32,7 @@ import {
     GitHub,
     Launch
 } from '@mui/icons-material';
-import { createProject, getOneProjectData } from '../common/services';
+import { createProject, getProjectData, updateProjectData } from '../common/services';
 import { useNavigate, useParams } from 'react-router-dom';
 
 // Validation schema
@@ -51,7 +51,7 @@ const validationSchema = Yup.object({
 });
 
 function ProjectAddPage() {
-    const [projectData, setProjectData]=useState({})
+    const [projectData, setProjectData] = useState({})
     const [technologies, setTechnologies] = useState(['React', 'Tailwind CSS']);
     const [newTech, setNewTech] = useState('');
     const [featuredProject, setFeaturedProject] = useState(false);
@@ -60,17 +60,17 @@ function ProjectAddPage() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [submitError, setSubmitError] = useState('');
     const [submitSuccess, setSubmitSuccess] = useState('');
-     const [dataLoaded, setDataLoaded] = useState(false);
+    const [dataLoaded, setDataLoaded] = useState(false);
     const fileInputRef = useRef(null);
-    const {type, id} = useParams()
+    const { type, id } = useParams()
 
- useEffect(() => {
+    useEffect(() => {
         if (type !== 'details') {
             setDataLoaded(true);
             return;
         }
 
-        getOneProjectData({ id: id })
+        getProjectData({ id: id })
             .then((res) => {
                 const data = res.data;
                 setProjectData(data);
@@ -87,7 +87,7 @@ function ProjectAddPage() {
     }, [type, id]);
 
 
-  // Initial values with proper dependency on dataLoaded
+    // Initial values with proper dependency on dataLoaded
     const initialValues = useMemo(() => {
         if (!dataLoaded) {
             return {
@@ -111,18 +111,88 @@ function ProjectAddPage() {
     }, [type, projectData, dataLoaded]);
 
 
-    const Navigate= useNavigate()
+    const Navigate = useNavigate()
     // Formik setup
     const formik = useFormik({
-        enableReinitialize: true, 
+        enableReinitialize: true,
         initialValues,
         validationSchema,
         onSubmit: async (values) => {
-            await handleCreateProject(values);
-        }
+            if (technologies.length === 0) {
+                setSubmitError('Please add at least one technology');
+                return;
+            }
+
+            setIsSubmitting(true);
+            setSubmitError('');
+            setSubmitSuccess('');
+
+            const formData = new FormData();
+            formData.append('title', values.title);
+            formData.append('description', values.description);
+            formData.append('liveUrl', values.liveUrl || '');
+            formData.append('githubUrl', values.githubUrl || '');
+            formData.append('displayOrder', values.displayOrder);
+            formData.append('featured', featuredProject);
+            formData.append('techStack', JSON.stringify(technologies));
+
+            if (selectedFile) {
+                formData.set('image', selectedFile);
+            } else {
+                formData.append('image', formik.values.image); // fallback
+            }
+
+            // 📌 Unified reset function
+            const resetFormState = () => {
+                formik.resetForm();
+                setTechnologies(['React', 'Tailwind CSS']);
+                setFeaturedProject(false);
+                setSelectedFile(null);
+                setFilePreview(null);
+                setSubmitSuccess('');
+            };
+
+            // 🔄 Update flow
+            if (type === 'details') {
+                formData.append('id', id);
+                try {
+                    await updateProjectData(formData);
+                    setSubmitSuccess('Project updated successfully!');
+                    setTimeout(() => {
+                        resetFormState();
+                        Navigate('/projects/list');
+                    }, 2000);
+                } catch (err) {
+                    const message =
+                        err?.response?.data?.message || err.message || 'Failed to update project';
+                    setSubmitError(message);
+                } finally {
+                    setIsSubmitting(false);
+                }
+                return;
+            }
+
+            // ➕ Create flow
+            try {
+                await createProject(formData);
+                setSubmitSuccess('Project created successfully!');
+                setTimeout(() => {
+                    resetFormState();
+                    Navigate('/projects/list');
+                }, 2000);
+            } catch (err) {
+                const message =
+                    err?.response?.data?.message || err.message || 'Failed to create project';
+                setSubmitError(message);
+            } finally {
+                setIsSubmitting(false);
+            }
+        },
     });
 
-    console.log("formik",formik)
+
+
+    console.log("formik", formik)
 
 
     // File handling
@@ -183,66 +253,14 @@ function ProjectAddPage() {
         }
     };
 
-    // Create project function
-    const handleCreateProject = (formValues) => {
-        if (technologies.length === 0) {
-            setSubmitError('Please add at least one technology');
-            return;
-        }
-
-        setIsSubmitting(true);
-        setSubmitError('');
-        setSubmitSuccess('');
-
-        const formData = new FormData();
-        formData.append('title', formValues.title);
-        formData.append('description', formValues.description);
-        formData.append('liveUrl', formValues.liveUrl || '');
-        formData.append('githubUrl', formValues.githubUrl || '');
-        formData.append('displayOrder', formValues.displayOrder);
-        formData.append('featured', featuredProject);
-        formData.append('techStack', JSON.stringify(technologies));
-        formData.append('image', formik.values.image);
-
-        if (selectedFile) {
-            formData.append('image', selectedFile);
-        }
-
-        createProject(formData)
-            .then((res) => {
-                setSubmitSuccess('Project created successfully!');
-
-                // Reset form after success
-                setTimeout(() => {
-                    formik.resetForm();
-                    setTechnologies(['React', 'Tailwind CSS']);
-                    setFeaturedProject(false);
-                    setSelectedFile(null);
-                    setFilePreview(null);
-                    setSubmitSuccess('');
-                    Navigate("/projects/list")
-                }, 2000);
-            })
-            .catch((err) => {
-                const message = err?.response?.data?.message || err.message || 'Failed to create project';
-                setSubmitError(message);
-            })
-            .finally(() => {
-                setIsSubmitting(false);
-            });
-    };
 
 
     const handleCancel = () => {
-        formik.resetForm();
-        setTechnologies(['React', 'Tailwind CSS']);
-        setFeaturedProject(false);
-        setSelectedFile(null);
-        setFilePreview(null);
-        setSubmitError('');
-        setSubmitSuccess('');
-        // Add navigation logic here
-        console.log('Form cancelled');
+        if (type === "add") {
+            Navigate(-1);
+        } else {
+            formik.resetForm();
+        }
     };
 
     return (
@@ -261,7 +279,7 @@ function ProjectAddPage() {
                     <Button
                         variant="outlined"
                         startIcon={<ArrowBack />}
-                        onClick={handleCancel}
+                        onClick={() => Navigate(-1)}
                         sx={{ borderColor: '#1976d2', color: '#1976d2' }}
                     >
                         Back
@@ -564,7 +582,7 @@ function ProjectAddPage() {
                                 variant="contained"
                                 size="large"
                                 sx={{ px: 4 }}
-                                disabled={isSubmitting || technologies.length === 0}
+                                disabled={isSubmitting || technologies.length === 0 || !formik.dirty}
                                 startIcon={isSubmitting ? <CircularProgress size={20} /> : null}
                             >
                                 {
